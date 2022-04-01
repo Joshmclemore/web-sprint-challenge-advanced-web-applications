@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PT from 'prop-types'
 
 const initialFormValues = { title: '', text: '', topic: '' }
 
 export default function ArticleForm(props) {
   const [values, setValues] = useState(initialFormValues)
-  const { currentArticleId, article, postArticle, updateArticle } = props
+  const { setId, setCurrentArticleId, currentArticleId, article, postArticle, updateArticle, } = props
   // ✨ where are my props? Destructure them here
 
   useEffect(() => {
@@ -37,6 +38,10 @@ export default function ArticleForm(props) {
     // Make sure the inputs have some values
   }
 
+  const eraseId = () => {
+    setCurrentArticleId(null)
+  }
+
   return (
     // ✨ fix the JSX: make the heading display either "Edit" or "Create"
     // and replace Function.prototype with the correct function
@@ -64,7 +69,7 @@ export default function ArticleForm(props) {
       </select>
       <div className="button-group">
         <button disabled={isDisabled()} id="submitArticle">Submit</button>
-        <button onClick={Function.prototype}>Cancel edit</button>
+        <button type="button" onClick={()=> eraseId()}>Cancel edit</button>
       </div>
     </form>
   )

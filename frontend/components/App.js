@@ -25,11 +25,14 @@ export default function App() {
 
   const logout = () => {
     // ✨ implement
+    window.localStorage.removeItem("token");
+    setMessage("Goodbye!");
+    redirectToLogin();
     // If a token is in local storage it should be removed,
     // and a message saying "Goodbye!" should be set in its proper state.
     // In any case, we should redirect the browser back to the login screen,
     // using the helper above.
-  }
+  } // need to finish
 
   const login = ({ username, password }) => {
     // ✨ implement
@@ -85,9 +88,9 @@ export default function App() {
   } // Complete
 
   const postArticle = article  => {
+    if(currentArticleId)
     setMessage('');
     setSpinnerOn(true);
-    console.log(article)
     axiosWithAuth().post(articlesUrl, article)
       .then(res => {
         console.log(res)
@@ -101,7 +104,7 @@ export default function App() {
       .finally(() => {
         setSpinnerOn(false)
       })
-  } // In Process
+  } // Complete
 
   const updateArticle = article => {
     // ✨ implement
@@ -124,11 +127,25 @@ export default function App() {
       .finally(() => {
         setSpinnerOn(false)
       })
-  }
+  } // complete
 
   const deleteArticle = article_id => {
     // ✨ implement
-  }
+    setSpinnerOn(true)
+    axiosWithAuth().delete(`${articlesUrl}/${article_id}`)
+      .then(res=> {
+        setMessage(res.data.message)
+        setArticles(articles.filter(art => {
+          return art.article_id !== article_id
+        }))
+      })
+      .catch(err => {
+        setMessage(err?.response?.data?.message)
+      })
+      .finally(() => {
+        setSpinnerOn(false)
+      })
+  } // need to finish
 
   return (
     // ✨ fix the JSX: `Spinner`, `Message`, `LoginForm`, `ArticleForm` and `Articles` expect props ❗
@@ -146,7 +163,8 @@ export default function App() {
           <Route path="/" element={<LoginForm login={login} />} />
           <Route path="articles" element={
             <>
-              <ArticleForm article={articles.find(art => art.article_id === currentArticleId)}  currentArticleId={currentArticleId} setCurrentArticleId={setCurrentArticleId} updateArticle={updateArticle} postArticle={postArticle}/>
+              <ArticleForm article={articles.find(art => art.article_id === currentArticleId)}  currentArticleId={currentArticleId} setCurrentArticleId={setCurrentArticleId} updateArticle={updateArticle} postArticle={postArticle} setMessage={setMessage} />
+
               <Articles setCurrentArticleId={setCurrentArticleId} deleteArticle={deleteArticle} getArticles={getArticles} articles={articles} />
             </>
           } />
