@@ -88,7 +88,6 @@ export default function App() {
   } // Complete
 
   const postArticle = article  => {
-    if(currentArticleId)
     setMessage('');
     setSpinnerOn(true);
     axiosWithAuth().post(articlesUrl, article)
@@ -97,6 +96,7 @@ export default function App() {
         setArticles([
           ...articles, res.data.article
         ])
+        setMessage(res.data.message)
       })
       .catch(err => {
         setMessage(err.response.data.message)

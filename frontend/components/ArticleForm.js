@@ -26,21 +26,31 @@ export default function ArticleForm(props) {
     evt.preventDefault()
     if (currentArticleId) {
       updateArticle(values)
+      setValues(initialFormValues)
     } else {
       postArticle(values)
+      setValues(initialFormValues)
     }
     // We must submit a new post or update an existing one,
     // depending on the truthyness of the `currentArticle` prop.
   }
 
   const isDisabled = () => {
-    // ✨ implement
-    // Make sure the inputs have some values
+    if(
+      values.title.trim().length >= 1 && 
+      values.text.trim().length >= 1 &&
+      values.topic
+      ) {
+      return false
+    } else {
+      return true
+    }
   }
 
   const eraseId = () => {
     setCurrentArticleId(null)
   }
+
 
   return (
     // ✨ fix the JSX: make the heading display either "Edit" or "Create"
