@@ -14,9 +14,12 @@ export default function Articles(props) {
 
   useEffect(() => {
     getArticles()
-    // ➡️➡️still need to set err message and if statement for 401 error⬅️⬅️
     // ✨ grab the articles here, on first render only
   }, [])
+
+  const setId = (article_id) => {
+    setCurrentArticleId(article_id)
+  }
 
   return (
     // ✨ fix the JSX: replace `Function.prototype` with actual functions
@@ -35,7 +38,7 @@ export default function Articles(props) {
                   <p>Topic: {art.topic}</p>
                 </div>
                 <div>
-                  <button disabled={true} onClick={Function.prototype}>Edit</button>
+                  <button onClick={ () => setId(art.article_id)}>Edit</button>
                   <button disabled={true} onClick={Function.prototype}>Delete</button>
                 </div>
               </div>
